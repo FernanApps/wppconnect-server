@@ -43,12 +43,20 @@ if (config?.websocket?.uploadS3) {
   crypto = config.websocket.uploadS3 ? Crypto : null;
 }
 
+function toBoolean(value: any): boolean {
+  if (typeof value === 'boolean') return value;
+  if (typeof value === 'string') return value.toLowerCase() === 'true' || value === '1';
+  if (typeof value === 'number') return value === 1;
+  return false;
+}
+
 export function contactToArray(
   number: any,
-  isGroup?: boolean,
+  _isGroup?: boolean,
   isNewsletter?: boolean,
   isLid?: boolean
 ) {
+  const isGroup = toBoolean(_isGroup);
   const localArr: any = [];
   if (Array.isArray(number)) {
     for (let contact of number) {
